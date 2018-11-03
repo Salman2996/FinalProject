@@ -38,7 +38,6 @@ public class MovieController {
 				System.out.println(jsonArray.getJSONObject(count).get("Title").toString());
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

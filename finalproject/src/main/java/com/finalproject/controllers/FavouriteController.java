@@ -19,7 +19,9 @@ public class FavouriteController {
 	FavouriteService favouriteService;
 	
 	@RequestMapping("favourites")
+	// Angular request to display favourites comes here to get the favourites
 	public List<Favourites> getFavourites(){
+		// TODO: convert the data from collection to JSON and return it to angular
 		return favouriteService.getFavourites();
 	}
 	
@@ -29,7 +31,11 @@ public class FavouriteController {
 	}
 	
 	@RequestMapping(value = "addFavourite", method = RequestMethod.POST)
+	// Clicking add button should redirect the request here
 	public void addFavourite(@RequestBody Favourites favourite){
+		// TODO: Add @PostMapping annotation to this function, URL must be same as that in angular
+		// TODO: Extract the movie ID from the post request and send a request to OMDB api to get the movie details
+		// TODO: Add the required details to the collection (to be done in the service method)
 		favouriteService.addFavourite(favourite);
 	}
 	
@@ -39,7 +45,11 @@ public class FavouriteController {
 	}
 	
 	@RequestMapping(value = "removeFavourite/{id}", method = RequestMethod.DELETE)
+	// Clicking remove button should redirect the request here
 	public void removeProduct(@PathVariable String id){
+		// TODO: Add @DeleteMapping annotation to this function, URL must be same as that in angular
+		// TODO: Extract the movie ID from the post request
+		// TODO: Delete the required movie from the collection (to be done in the service method)
 		favouriteService.removeFavourite(id);
 	}
 }
