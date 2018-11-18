@@ -11,7 +11,6 @@ import com.finalproject.model.Favourites;
 @Repository
 public interface FavouriteRepository extends CrudRepository<Favourites, String> {
 
-	Optional<Favourites> findById(Long id);
 	Optional<Favourites> findByImdbId(String imdbId);
 	void deleteByImdbId(String imdbId);
 	List<Favourites> findAllByUserId(int user_id);

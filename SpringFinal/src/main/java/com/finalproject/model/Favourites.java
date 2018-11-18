@@ -1,6 +1,5 @@
 package com.finalproject.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -21,51 +19,43 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "favourites")
 public class Favourites {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="favourite_sequence")
-	@SequenceGenerator(name="favourite_sequence",sequenceName="FAVOURITE_SEQ",allocationSize=1)
-	//@Column(name="fav_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "favourite_sequence")
+	@SequenceGenerator(name = "favourite_sequence", sequenceName = "FAVOURITE_SEQ", allocationSize = 1)
 	private Long id;
-	
-	@Column(name="imdbid")
+
+	@Column(name = "imdbid")
 	private String imdbId;
-	
+
 	@Column(name = "title")
-	private String title; 
-	
+	private String title;
+
 	@Column(name = "year")
 	private String year;
-	
+
 	@Column(name = "poster")
 	String poster;
 
 	@Column(name = "type")
 	String type;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private User user;
-	
-	public Favourites(){}
-	
-	public Favourites(String imdbid, String title, String year, String poster,String type) {
+
+	public Favourites() {
+	}
+
+	public Favourites(String imdbid, String title, String year, String poster, String type) {
 		this.imdbId = imdbid;
 		this.title = title;
 		this.year = year;
 		this.poster = poster;
 		this.type = type;
 	}
-	
-//	public Long getFav_id() {
-//		return fav_id;
-//	}
-//
-//	public void setFav_id(Long fav_id) {
-//		this.fav_id = fav_id;
-//	}
 
 	public Long getId() {
 		return id;
@@ -124,14 +114,17 @@ public class Favourites {
 	}
 
 	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Favourites )) return false;
-        return id != null && id.equals(((Favourites) o).id);
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Favourites))
+			return false;
+		return id != null && id.equals(((Favourites) o).id);
 	}
-	 @Override
-	    public int hashCode() {
-	        return 31;
-	    }
+
+	@Override
+	public int hashCode() {
+		return 31;
+	}
 
 }

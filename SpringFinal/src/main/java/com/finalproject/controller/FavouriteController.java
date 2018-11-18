@@ -27,7 +27,6 @@ public class FavouriteController {
 	@Autowired
 	FavouriteService favouriteService;
 	
-	//@RequestMapping("favourites")
 	// Angular request to display favourites comes here to get the favourites
 	@GetMapping(value = "/api/favourites/{id}")
 	public List<Favourites> getFavourites(@PathVariable(value="id") String id){
@@ -35,52 +34,39 @@ public class FavouriteController {
 		return favouriteService.getFavourites(Integer.parseInt(id));
 	}
 	
-	@RequestMapping("favourite/{id}")
-	public Optional<Favourites> getFavouriteById(@PathVariable String id){
-		return favouriteService.getFavouriteById(Long.parseLong(id));
-	}
 	
-	//@RequestMapping(value = "api/addFavourite", method = RequestMethod.POST)
 	// Clicking add button should redirect the request here
-	@PostMapping(value = "/api/addFavourite/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String addFavourite(@RequestBody String favourite,@PathVariable(value="id") String id){
+	@PostMapping(value = "/api/addFavourite/{user_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String addFavourite(@RequestBody String favourite, @PathVariable(value = "user_id") String id){
 		
-		System.out.println("received" + favourite);
+		// System.out.println("received" + favourite);
 		try {
 			JSONObject jsonObject = new JSONObject(favourite);
 			String imdbID = jsonObject.getString("imdbID");
-			if(!favouriteService.checkIfAlreadyInFavourites(imdbID)) {
+			
+			if(!favouriteService.checkIfAlreadyInFavourites(imdbID, id)) {
+				
 				String title = jsonObject.getString("Title");
 				String year = jsonObject.getString("Year");
 				String poster = jsonObject.getString("Poster");
 				String type = jsonObject.getString("Type");
-				//String user_id = jsonObject.getString("User_ID");
 				
 				Favourites newFavourite = new Favourites(imdbID, title, year, poster, type);
-				favouriteService.addFavourite(newFavourite,id);
+				favouriteService.addFavourite(newFavourite, id);
 			} else {
 				System.out.println("Already in favourites!!");
-				return "Already in favourites";
+				return null;
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		//favouriteService.addFavourite(favourite);
+		
 		return favourite;
 	}
 	
-	@RequestMapping(value = "updateFavourite/{id}", method = RequestMethod.PUT)
-	public void updateFavourite(@PathVariable String id, @RequestBody Favourites favourite){
-		favouriteService.updateFavourite(id, favourite);
-	}
-	
-	//@RequestMapping(value = "/api/removeFavourite/{id}", method = RequestMethod.DELETE)
 	// Clicking remove button should redirect the request here
-	@DeleteMapping(path= "/api/removeFavourite/{user_id}/{id}")
-	public void removeProduct(@PathVariable String id, @PathVariable String user_id){
-		// TODO: Add @DeleteMapping annotation to this function, URL must be same as that in angular
-		// TODO: Extract the movie ID from the post request
-		// TODO: Delete the required movie from the collection (to be done in the service method)
-		favouriteService.removeFavourite(id,user_id);
+	@DeleteMapping(path= "/api/removeFavourite/{user_id}/{imdb_id}")
+	public void removeProduct(@PathVariable(value = "imdb_id") String imdb_id, @PathVariable(value = "user_id") String user_id){
+		favouriteService.removeFavourite(imdb_id,user_id);
 	}
 }

@@ -17,6 +17,7 @@ public class LoginServiceImp implements LoginService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
 	private int userID;
 
 	@Override
@@ -64,7 +65,7 @@ public class LoginServiceImp implements LoginService {
 	public int addUser(User user) {
 		userRepository.save(user);
 		User response=userRepository.findByEmail(user.getEmail());
-			return response.getId();
+		return response.getId();
 
 	}
 
