@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "playlist")
 public class Playlist {
@@ -29,6 +31,7 @@ public class Playlist {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name="user_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private User user;
 
 	public Playlist(String name){

@@ -34,10 +34,12 @@ public class PlaylistServiceImpl implements PlaylistService {
 	}
 
 	@Override
-	public boolean checkIfPlaylistExists(String playlistName, int user_id) {
+	public boolean checkIfPlaylistExists(String playlist, int user_id) {
 		List<Playlist> playlists = playlistRepository.findAllByUserId(user_id);
-		for(Playlist playlist : playlists) {
-			if(playlist.getName().equalsIgnoreCase(playlistName))
+		if(playlists == null)
+			return false;
+		for(Playlist list : playlists) {
+			if(list.getName().equalsIgnoreCase(playlist))
 				return true;
 		}
 		return false;
